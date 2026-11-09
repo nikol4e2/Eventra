@@ -9,6 +9,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -39,7 +40,17 @@ public class QrCode {
     @JoinColumn(name = "ticket_id")
     private Ticket ticket;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        QrCode qrCode = (QrCode) o;
+        return Objects.equals(id, qrCode.id) && status == qrCode.status && Objects.equals(value, qrCode.value) && Objects.equals(createdAt, qrCode.createdAt) && Objects.equals(updatedAt, qrCode.updatedAt);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, status, value, createdAt, updatedAt);
+    }
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
