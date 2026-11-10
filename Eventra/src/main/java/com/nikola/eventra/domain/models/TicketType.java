@@ -34,6 +34,9 @@ public class TicketType {
     @Column(name = "price", nullable = false)
     private double price;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "total_available", nullable = true)
     private Integer totalAvailable;
 

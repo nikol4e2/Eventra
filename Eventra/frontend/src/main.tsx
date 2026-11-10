@@ -105,9 +105,9 @@ const router = createBrowserRouter([
 ]);
 
 const oidcConfig = {
-  authority: "http://localhost:9090/realms/event-ticket-platform",
-  client_id: "event-ticket-platform-app",
-  redirect_uri: "http://localhost:5173/callback",
+  authority: "http://localhost:9090/realms/eventra",
+  client_id: "eventra-app",
+  redirect_uri: "http://localhost:5173/dashboard",
 };
 
 createRoot(document.getElementById("root")!).render(
