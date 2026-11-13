@@ -31,10 +31,10 @@ public class Event {
     private String name;
 
 
-    @Column(name = "start", nullable = false)
+    @Column(name = "event_start", nullable = false)
     private LocalDateTime start;
 
-    @Column(name = "end", nullable = false)
+    @Column(name = "event_end", nullable = false)
     private LocalDateTime end;
 
     @Column(name = "venue", nullable = false)

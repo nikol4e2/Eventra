@@ -7,6 +7,7 @@ import com.nikola.eventra.domain.dtos.CreateEventRequestDto;
 import com.nikola.eventra.domain.dtos.CreateEventResponseDto;
 import com.nikola.eventra.domain.dtos.CreateTicketTypeRequestDto;
 import com.nikola.eventra.domain.models.Event;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
