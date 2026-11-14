@@ -1,6 +1,9 @@
 package com.nikola.eventra.controllers;
 
 import com.nikola.eventra.domain.dtos.ErrorDto;
+import com.nikola.eventra.exceptions.EventNotFoundException;
+import com.nikola.eventra.exceptions.EventUpdateException;
+import com.nikola.eventra.exceptions.TicketTypeNotFoundException;
 import com.nikola.eventra.exceptions.UserNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +21,32 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(EventUpdateException.class)
+    public ResponseEntity<ErrorDto> handleEventUpdateException(TicketTypeNotFoundException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("Unable to update event");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleEventNotFoundException(EventNotFoundException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("Event not found");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TicketTypeNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleTicketTypeNotFoundException(TicketTypeNotFoundException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("TicketType not found");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorDto> handleUserNotFoundException(Exception e)
+    public ResponseEntity<ErrorDto> handleUserNotFoundException(UserNotFoundException e)
     {
         log.error("Exception occurred: {}", e.getMessage());
         ErrorDto errorDto = new ErrorDto("User not found");

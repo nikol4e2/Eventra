@@ -1,6 +1,7 @@
 package com.nikola.eventra.services;
 
 import com.nikola.eventra.domain.CreateEventRequest;
+import com.nikola.eventra.domain.UpdateEventRequest;
 import com.nikola.eventra.domain.models.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ public interface EventService {
     Event crateEvent(UUID organizerId, CreateEventRequest event);
     Page<Event> listEventsForOrganizer(UUID organizerId, Pageable pageable);
     Optional<Event> getEventForOrganizer(UUID organizerId, UUID id);
+    Event updateEvent(UUID organizerId, UUID eventId, UpdateEventRequest event);
 
 
 }
