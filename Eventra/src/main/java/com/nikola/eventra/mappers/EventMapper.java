@@ -3,6 +3,8 @@ package com.nikola.eventra.mappers;
 
 import com.nikola.eventra.domain.CreateEventRequest;
 import com.nikola.eventra.domain.CreateTicketTypeRequest;
+import com.nikola.eventra.domain.UpdateEventRequest;
+import com.nikola.eventra.domain.UpdateTicketTypeRequest;
 import com.nikola.eventra.domain.dtos.*;
 import com.nikola.eventra.domain.models.Event;
 
@@ -26,6 +28,12 @@ public interface EventMapper {
 
     GetEventTicketTypesResponseDto toGetEventTicketTypesResponseDto(TicketType ticketType);
     GetEventDetailsResponseDto toGetEventDetailsResponseDto(Event event);
+
+    UpdateTicketTypeRequest fromDto(UpdateTicketTypeRequestDto dto);
+    UpdateEventRequest fromDto(UpdateEventRequestDto dto);
+
+    UpdateTicketTypeResponseDto toUpdateTicketTypeResponseDto(TicketType ticketType);
+    UpdateEventResponseDto toUpdateEventResponseDto(Event event);
 
 
 

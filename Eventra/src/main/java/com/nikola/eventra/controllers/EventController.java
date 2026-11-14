@@ -1,10 +1,8 @@
 package com.nikola.eventra.controllers;
 
 import com.nikola.eventra.domain.CreateEventRequest;
-import com.nikola.eventra.domain.dtos.CreateEventRequestDto;
-import com.nikola.eventra.domain.dtos.CreateEventResponseDto;
-import com.nikola.eventra.domain.dtos.GetEventDetailsResponseDto;
-import com.nikola.eventra.domain.dtos.ListEventResponseDto;
+import com.nikola.eventra.domain.UpdateEventRequest;
+import com.nikola.eventra.domain.dtos.*;
 import com.nikola.eventra.domain.models.Event;
 import com.nikola.eventra.mappers.EventMapper;
 import com.nikola.eventra.services.EventService;
@@ -63,5 +61,21 @@ public class EventController {
                 .orElse(ResponseEntity.notFound().build());
 
     }
+
+
+    @PutMapping("/{eventId}")
+    public ResponseEntity<UpdateEventResponseDto> updateEvent(@AuthenticationPrincipal Jwt jwt, @PathVariable UUID eventId,@Valid @RequestBody UpdateEventRequestDto upadteEventRequestDto){
+        UpdateEventRequest updateEventRequest=eventMapper.fromDto(upadteEventRequestDto);
+
+        UUID userId= parseUserId(jwt);
+        Event updatedEvent=eventService.updateEvent(userId,eventId,updateEventRequest );
+
+        UpdateEventResponseDto updateEventResponseDto=eventMapper.toUpdateEventResponseDto(updatedEvent);
+        return  ResponseEntity.ok(updateEventResponseDto);
+
+    }
+
+
+
 
 }
