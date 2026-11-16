@@ -18,6 +18,7 @@ public interface EventService {
     Optional<Event> getEventForOrganizer(UUID organizerId, UUID id);
     Event updateEvent(UUID organizerId, UUID eventId, UpdateEventRequest event);
     void deleteEventForOrganizer(UUID organizerId, UUID eventId);
+    Page<Event> listPublishedEvents(Pageable pageable);
 
 
 }

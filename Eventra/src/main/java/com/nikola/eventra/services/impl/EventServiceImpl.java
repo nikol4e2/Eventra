@@ -3,6 +3,7 @@ package com.nikola.eventra.services.impl;
 import com.nikola.eventra.domain.CreateEventRequest;
 import com.nikola.eventra.domain.UpdateEventRequest;
 import com.nikola.eventra.domain.UpdateTicketTypeRequest;
+import com.nikola.eventra.domain.enums.EventStatusEnum;
 import com.nikola.eventra.domain.models.Event;
 import com.nikola.eventra.domain.models.TicketType;
 import com.nikola.eventra.domain.models.User;
@@ -142,5 +143,11 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public void deleteEventForOrganizer(UUID organizerId, UUID eventId) {
         getEventForOrganizer(organizerId,eventId).ifPresent(eventRepository::delete);
+    }
+
+    @Override
+    public Page<Event> listPublishedEvents(Pageable pageable) {
+        return eventRepository.findByStatus(EventStatusEnum.PUBLISHED,pageable);
+
     }
 }
