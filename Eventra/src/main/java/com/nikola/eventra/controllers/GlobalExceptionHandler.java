@@ -1,10 +1,7 @@
 package com.nikola.eventra.controllers;
 
 import com.nikola.eventra.domain.dtos.ErrorDto;
-import com.nikola.eventra.exceptions.EventNotFoundException;
-import com.nikola.eventra.exceptions.EventUpdateException;
-import com.nikola.eventra.exceptions.TicketTypeNotFoundException;
-import com.nikola.eventra.exceptions.UserNotFoundException;
+import com.nikola.eventra.exceptions.*;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +17,33 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(TicketsSoldOutException.class)
+    public ResponseEntity<ErrorDto> handleTicketsSoldOutException(TicketsSoldOutException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("Tickets are sold out for this ticket type");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(QrCodeNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleQrCodeNotFoundException(QrCodeNotFoundException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("QR code not found");
+        return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    @ExceptionHandler(QrQenerationException.class)
+    public ResponseEntity<ErrorDto> handleQrQenrationException(QrQenerationException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("Unable to generate QR code");
+        return new ResponseEntity<>(errorDto, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
     @ExceptionHandler(EventUpdateException.class)
     public ResponseEntity<ErrorDto> handleEventUpdateException(TicketTypeNotFoundException e)
