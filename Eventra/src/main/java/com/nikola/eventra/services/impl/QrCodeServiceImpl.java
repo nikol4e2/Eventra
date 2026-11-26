@@ -8,10 +8,12 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.nikola.eventra.domain.enums.QrCodeStatusEnum;
 import com.nikola.eventra.domain.models.QrCode;
 import com.nikola.eventra.domain.models.Ticket;
+import com.nikola.eventra.exceptions.QrCodeNotFoundException;
 import com.nikola.eventra.exceptions.QrQenerationException;
 import com.nikola.eventra.repositories.QrCodeRepository;
 import com.nikola.eventra.services.QrCodeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -24,6 +26,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QrCodeServiceImpl implements QrCodeService {
 
     private static final int QR_HEIGHT = 300;
@@ -73,5 +76,19 @@ public class QrCodeServiceImpl implements QrCodeService {
             return Base64.getEncoder().encodeToString(imageBytes);
         }
 
+    }
+
+
+    @Override
+    public byte[] getQrCodeImageForUserAndTicket(UUID userId, UUID ticketId) {
+        QrCode qrCode=qrCodeRepository.findByTicketIdAndTicketPurchaserId(ticketId,userId)
+                .orElseThrow(QrCodeNotFoundException::new);
+
+        try {
+            return Base64.getDecoder().decode(qrCode.getValue());
+        }catch (IllegalArgumentException e) {
+            log.error("Invalid base64 Qr Code for ticketId: {}",ticketId,e);
+            throw new QrCodeNotFoundException();
+        }
     }
 }

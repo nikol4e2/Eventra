@@ -18,6 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, UserProvisioningFilter userProvisioningFilter, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/api/v1/published-events/**").permitAll()
+                        .requestMatchers("/api/v1/ticket-validations").hasRole("STAFF")
                         .requestMatchers("/api/v1/events").hasRole("ORGANIZER")
                         .anyRequest().authenticated())
                 .csrf(crrsf -> crrsf.disable())

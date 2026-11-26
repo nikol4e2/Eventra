@@ -18,6 +18,15 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
+
+    @ExceptionHandler(TicketNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleTicketNotFoundException(TicketNotFoundException e)
+    {
+        log.error("Exception occurred: {}", e.getMessage());
+        ErrorDto errorDto = new ErrorDto("Ticket not found");
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(TicketsSoldOutException.class)
     public ResponseEntity<ErrorDto> handleTicketsSoldOutException(TicketsSoldOutException e)
     {
